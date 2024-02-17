@@ -1,5 +1,9 @@
 const std = @import("std");
-const readline = @import("readline.zig");
+
+const c = @cImport({
+    @cInclude("stdio.h");
+    @cInclude("readline/readline.h");
+});
 
 const PathIterator = std.mem.SplitIterator(u8, .scalar);
 
@@ -8,7 +12,7 @@ pub fn main() !void {
 
     try stdout.writeAll("bytes: []const u8\n");
 
-    const out = readline.readline("> ");
+    const out = c.readline("> ");
     defer std.c.free(out);
 
     var buf: [std.fs.MAX_PATH_BYTES]u8 = undefined;
